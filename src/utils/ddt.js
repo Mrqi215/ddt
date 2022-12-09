@@ -2,11 +2,12 @@
  *  20度定角
  * @param screenSpacing 屏距
  */
-function formulaFun20(screenSpacing){
+function formulaFun20(screenSpacing, windDirection = true, windPower) {
     const {formula20} = require('./formula')
     return {
-        angle:20,
-        power:formula20[screenSpacing]
+        name: '20度定角',
+        angle: 20,
+        power: formula20[screenSpacing]
     }
 }
 
@@ -27,6 +28,7 @@ function formulaFun65(screenSpacing,windDirection=true,windPower){
         angle = angle-intWind*2-dotWind*0.2
     }
     return {
+        name: '65度定角',
         angle,
         power
     }
@@ -48,7 +50,8 @@ function formulaFun45(screenSpacing,windDirection=true,windPower){
         power = power+intWind*1+dotWind*0.1
     }
     return {
-        angle:45,
+        name: '45度定角',
+        angle: 45,
         power
     }
 }
@@ -69,7 +72,8 @@ function formulaFun30(screenSpacing,windDirection=true,windPower){
         power = power+intWind*1+dotWind*0.1
     }
     return {
-        angle:30,
+        name: '30度定角',
+        angle: 30,
         power
     }
 }
@@ -90,7 +94,8 @@ function formulaFun50(screenSpacing,windDirection=true,windPower){
         power = power+intWind*1+dotWind*0.1
     }
     return {
-        angle:50,
+        name: '50度定角',
+        angle: 50,
         power
     }
 }
@@ -110,8 +115,9 @@ function formulaFunSmallToss(screenSpacing,windDirection=true,windPower){
         angle = angle-screenSpacing*4-intWind*2-dotWind*0.2
     }
     return {
-        angle:angle,
-        power:41
+        name: '适合1-5屏幕 小抛',
+        angle: angle,
+        power: 41
     }
 }
 
@@ -131,12 +137,14 @@ function formulaFunHalfThrow(screenSpacing,windDirection=true,windPower){
         angle = angle-screenSpacing*2-intWind*2-dotWind*0.2
     }
     return {
-        angle:angle,
-        power:60
+        name: '适合1-10屏幕 半抛',
+        angle: angle,
+        power: 60
     }
 }
+
 /**
- *  适合1-10屏幕 反高抛
+ *  反高抛
  * @param screenSpacing 屏距
  * @param windDirection 风向
  * @param windPower 风力
@@ -150,8 +158,9 @@ function formulaAntiHighThrow(screenSpacing,windDirection=true,windPower){
         angle = angle+screenSpacing*1-intWind*2-dotWind*0.2
     }
     return {
-        angle:angle,
-        power:95
+        name: '反高抛',
+        angle: angle,
+        power: 95
     }
 }
 
@@ -171,10 +180,12 @@ function formulaHighThrow(screenSpacing,windDirection=true,windPower){
         angle = angle-screenSpacing*1-intWind*2-dotWind*0.2
     }
     return {
-        angle:angle,
-        power:95
+        name: '高抛',
+        angle: angle,
+        power: 95
     }
 }
+
 
 module.exports = {
     formulaHighThrow,
