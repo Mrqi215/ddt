@@ -14,12 +14,13 @@ npm run electron:serve
 npm run electron:build
 
 ### npm 配置 electron 华为云环境
-
+```
+// 遇到无法打包情况 
 npm config set registry https://mirrors.huaweicloud.com/repository/npm/
 npm cache clean -f
 npm config set electron_mirror https://mirrors.huaweicloud.com/electron/
 npm config set electron_builder_binaries_mirror https://mirrors.huaweicloud.com/electron-builder-binaries/
-// 遇到无法打包情况 请重启编辑器
+```
 
 
 
