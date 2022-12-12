@@ -3,41 +3,38 @@
     <div class="title">弹弹堂公式</div>
     <Form :model="form" :label-width="80">
       <FormItem label="屏距：">
-        <RadioGroup v-model="form.screenSpacing" type="button" size="large">
+        <RadioGroup @on-change="submitSearch" v-model="form.screenSpacing" type="button" size="large">
           <Radio v-for="(item, index) in 20" :label="item"></Radio>
         </RadioGroup>
       </FormItem>
       <FormItem label="风向：">
-        <RadioGroup v-model="form.windDirection">
+        <RadioGroup @on-change="submitSearch" v-model="form.windDirection">
           <Radio :label="1">顺风</Radio>
           <Radio :label="0">逆风</Radio>
         </RadioGroup>
       </FormItem>
       <FormItem label="风力：">
-        <RadioGroup v-model="form.windPowerInt" type="button" size="large">
+        <RadioGroup @on-change="submitSearch" v-model="form.windPowerInt" type="button" size="large">
           <Radio v-for="(item, index) in 6" :label="index"></Radio>
         </RadioGroup>
         <div>
-          <RadioGroup v-model="form.windPowerDot" type="button" size="large">
+          <RadioGroup @on-change="submitSearch" v-model="form.windPowerDot" type="button" size="large">
             <Radio v-for="(item, index) in 10" :label="dotValue(index)"></Radio>
           </RadioGroup>
         </div>
       </FormItem>
-      <div style="width: 100%; text-align: center">
-        <Button type="success" @click="submitSearch">查询</Button>
-      </div>
     </Form>
-    <div v-if="powerList.length > 0">
+    <div style="margin-top: 10px;width: 100%;display: flex;justify-content: center" v-if="powerList.length > 0">
       <Row>
         <div v-for="(item, index) in powerList">
           <Card>
             <Col>
-              <div>
+              <div class="text-title">
                 {{ item.name }}
               </div>
-              <div>力度:{{ item.power }}</div>
+              <div>力度:<span class="red">{{ item.power }}</span></div>
               <div>
-                角度:{{ item.angle }}
+                角度:<span class="text red">{{ item.angle }}</span>
               </div>
             </Col>
           </Card>
@@ -64,8 +61,9 @@ export default {
       powerList: [],
     }
   },
-  components: {},
-
+  created() {
+    this.submitSearch()
+  },
   methods: {
     dotValue(index) {
       if (index === 0) {
@@ -74,15 +72,22 @@ export default {
       return '0.' + index
     },
     submitSearch() {
+      console.log(this.form.windPowerDot)
       if (this.form.windPowerDot === 0) {
         this.form.windPower = this.form.windPowerInt + '.' + this.form.windPowerDot
+      } else {
+        if (this.form.windPowerInt === 0) {
+          this.form.windPower = this.form.windPowerDot
+        } else {
+          this.form.windPower = this.form.windPowerInt * 1 + this.form.windPowerDot * 1
+        }
       }
+      console.log(this.form.windPower)
       let {data} = search(
           this.form.screenSpacing,
           this.form.windDirection,
           this.form.windPower
       )
-      console.log(data)
       this.powerList = data
     },
   },
@@ -101,5 +106,14 @@ export default {
   text-align: center;
   font-weight: 700;
   font-size: 24px;
+}
+
+.text-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.red {
+  color: red;
 }
 </style>
