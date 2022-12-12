@@ -1,24 +1,71 @@
 'use strict'
 
-import {app, protocol, BrowserWindow} from 'electron'
+import {app, protocol, BrowserWindow, dialog} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS3_DEVTOOLS} from 'electron-devtools-installer'
 
+const {autoUpdater} = require('electron-updater')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
+Object.defineProperty(app, 'isPackaged', {
+    get() {
+        return true;
+    }
+});
 protocol.registerSchemesAsPrivileged([
-  {scheme: 'app', privileges: {secure: true, standard: true}}
+    {scheme: 'app', privileges: {secure: true, standard: true}}
 ])
 
-async function createWindow() {
-  // Create the browser window.
-  const win = new BrowserWindow({
-    width: 800,
-    height: 650,
-    webPreferences: {
+function checkUpdate() {
+    console.log(process.platform)
+    if (process.platform === 'darwin') {
 
-      // Use pluginOptions.nodeIntegration, leave this alone
+        autoUpdater.setFeedURL('http://127.0.0.1:9005/darwin')  //设置要检测更新的路径
+
+    } else {
+        autoUpdater.setFeedURL('http://127.0.0.1:9005/win32')
+    }
+
+    autoUpdater.checkForUpdates();
+
+    //监听'error'事件
+    autoUpdater.on('error', (err) => {
+        console.log(err)
+    })
+
+    //监听'update-available'事件，发现有新版本时触发
+    autoUpdater.on('update-available', () => {
+        console.log('found new version')
+    })
+
+    //默认会自动下载新版本，如果不想自动下载，设置autoUpdater.autoDownload = false
+    // autoUpdater.autoDownload = false
+    //监听'update-downloaded'事件，新版本下载完成时触发
+    autoUpdater.on('update-downloaded', () => {
+        dialog.showMessageBox({
+            type: 'info',
+            title: '应用更新',
+            message: '发现新版本，是否更新？',
+            buttons: ['是', '否']
+        }).then((buttonIndex) => {
+            if (buttonIndex.response == 0) {  //选择是，则退出程序，安装新版本
+                autoUpdater.quitAndInstall()
+                app.quit()
+            }
+        })
+    })
+}
+
+
+async function createWindow() {
+    // Create the browser window.
+    const win = new BrowserWindow({
+        width: 800,
+        height: 650,
+        webPreferences: {
+
+            // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
@@ -55,15 +102,17 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS3_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
+    if (isDevelopment && !process.env.IS_TEST) {
+        // Install Vue Devtools
+        try {
+            await installExtension(VUEJS3_DEVTOOLS)
+        } catch (e) {
+            console.error('Vue Devtools failed to install:', e.toString())
+        }
     }
-  }
-  createWindow()
+    createWindow()
+    checkUpdate()
+
 })
 
 // Exit cleanly on request from parent process in development mode.

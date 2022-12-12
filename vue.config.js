@@ -5,11 +5,17 @@ module.exports = {
       builderOptions: {
         "appId": "com.app.mrQiDdt",
         "productName": "ddtFormula",
-        "copyright": "Copyright © 2021 mrqi",
+        "copyright": "Copyright © 2022 mrqi",
         "directories": {
-          "buildResources": "build"
+          "buildResources": "build",   //指定打包需要的静态资源，默认是build
+          "output": "dist",  //打包生成的目录，默认是dist
         },
+        "publish": [{
+          "provider": "generic",
+          "url": "http://127.0.0.1:9005/"
+        }],
         "mac": {
+          "target": ["dmg", "zip"],       //安装包的格式，默认是"dmg"和"zip"
           "category": "public.app-category.utilities"
         },
         "dmg": {

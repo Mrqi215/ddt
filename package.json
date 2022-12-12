@@ -1,21 +1,24 @@
 {
   "name": "ddt",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "serve": "node_modules/.bin/vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "/node_modules/.bin/vue-cli-service build",
-    "lint": "node_modules/.bin/vue-cli-service lint",
+    "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "build-icon": "electron-icon-builder --input=./public/icon.png --output=build --flatten"
+    "release": "cross-env GH_TOKEN=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 electron-builder",
+    "build-icon": "electron-icon-builder --input=./public/icon.png --output=build --flatten",
+    "pack": "electron-builder"
   },
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.8.3",
-    "electron": "^22.0.0",
+    "koa": "^2.14.1",
+    "koa-static": "^5.0.0",
     "view-ui-plus": "^1.3.1",
     "vue": "^3.2.13"
   },
@@ -25,7 +28,7 @@
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-plugin-eslint": "^4.5.0",
     "@vue/cli-service": "^4.5.0",
-    "electron": "^13.0.0",
+    "cross-env": "^7.0.3",
     "electron-devtools-installer": "^3.1.0",
     "electron-icon-builder": "^2.0.1",
     "eslint": "^7.32.0",
@@ -52,5 +55,16 @@
     "not dead",
     "not ie 11"
   ],
-  "__npminstall_done": false
+  "description": "- 基础算法\r - ui界面",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mrqi215/ddt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mrqi215/ddt/issues"
+  },
+  "homepage": "https://github.com/Mrqi215/ddt#readme"
 }
