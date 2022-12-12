@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div class="title">弹弹堂公式</div>
-    <Form :model="form" :label-width="80">
-      <FormItem label="屏距：">
-        <RadioGroup @on-change="submitSearch" v-model="form.screenSpacing" type="button" size="large">
-          <Radio v-for="(item, index) in 20" :label="item"></Radio>
-        </RadioGroup>
-      </FormItem>
-      <FormItem label="风向：">
-        <RadioGroup @on-change="submitSearch" v-model="form.windDirection">
-          <Radio :label="1">顺风</Radio>
-          <Radio :label="0">逆风</Radio>
+
+    <Card title="弹弹堂公式">
+      <Form :model="form" :label-width="80">
+        <FormItem label="屏距：">
+          <RadioGroup @on-change="submitSearch" v-model="form.screenSpacing" type="button" size="large">
+            <Radio v-for="(item, index) in 20" :label="item"></Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="风向：">
+          <RadioGroup @on-change="submitSearch" v-model="form.windDirection">
+            <Radio :label="1">顺风</Radio>
+            <Radio :label="0">逆风</Radio>
         </RadioGroup>
       </FormItem>
       <FormItem label="风力：">
@@ -41,6 +42,7 @@
         </div>
       </Row>
     </div>
+    </Card>
   </div>
 </template>
 
