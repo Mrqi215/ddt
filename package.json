@@ -8,8 +8,9 @@
     "lint": "node_modules/.bin/vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "node_modules/.bin/electron-builder install-app-deps",
-    "postuninstall": "node_modules/.bin/electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps",
+    "build-icon": "electron-icon-builder --input=./public/icon.png --output=build --flatten"
   },
   "main": "background.js",
   "dependencies": {
@@ -26,6 +27,7 @@
     "@vue/cli-service": "^4.5.0",
     "electron": "^13.0.0",
     "electron-devtools-installer": "^3.1.0",
+    "electron-icon-builder": "^2.0.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "vue-cli-plugin-electron-builder": "~2.1.1"
